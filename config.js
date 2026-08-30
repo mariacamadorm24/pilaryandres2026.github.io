@@ -10,7 +10,7 @@
  * -----------------------------------------------------------------------
  */
 
-window WEDDING_CONFIG = {
+window.WEDDING_CONFIG = {
 
   // ------------------------------------------------------------------
   // META / SEO — ver instrucciones.md sección "SEO" para la imagen OG
