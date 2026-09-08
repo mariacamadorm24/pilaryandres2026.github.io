@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Pilar &amp; Andrés — 31 de Octubre de 2026</title>
+<meta name="description" content="Acompáñanos a celebrar la boda de Pilar y Andrés el 31 de octubre de 2026 en Vélez, Santander. Confirma tu asistencia aquí." />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Pilar & Andrés — 31 de Octubre de 2026" />
+<meta property="og:description" content="Acompáñanos a celebrar nuestra boda el 31 de octubre de 2026 en Vélez, Santander." />
+<meta property="og:image" content="assets/og-cover.jpg" />
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='31' fill='%23f6f0e3' stroke='%23a9822f' stroke-width='1.5'/%3E%3Ctext x='32' y='40' font-family='Georgia,serif' font-size='24' font-style='italic' text-anchor='middle' fill='%236e3856'%3EP%26A%3C/text%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,460;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600&family=Pacifico&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ==================== Pantalla de entrada (activa la música) ==================== -->
+<div class="entrance-overlay" id="entrance-overlay">
+  <div class="entrance-overlay__inner">
+    <p class="entrance-overlay__kicker" id="entrance-kicker"></p>
+    <h1 class="entrance-overlay__names" id="entrance-names"></h1>
+    <button type="button" class="btn btn--solid entrance-overlay__btn" id="entrance-enter-btn">Abrir invitación</button>
+  </div>
+</div>
+
+<!-- Reproductor de música (oculto, solo audio), controlado por app.js -->
+<div id="yt-audio-player" aria-hidden="true"></div>
+
+<!-- ================================= HERO ================================= -->
+<header class="hero" id="hero">
+  <div class="hero__bg" id="hero-bg" aria-hidden="true"></div>
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <div class="hero__content">
+    <p class="hero__kicker" id="hero-kicker"></p>
+    <h1 class="hero__names hero__names--script" id="hero-names" aria-label="Pilar y Andrés"></h1>
+
+    <p class="hero__meta">
+      <span id="hero-date"></span>
+      <span class="dot" aria-hidden="true">·</span>
+      <span id="hero-place"></span>
+    </p>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">
+    <span>Desliza</span>
+    <span class="hero__scroll-line"></span>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============================ BIENVENIDA + MÚSICA ============================ -->
+  <section class="section welcome" id="welcome">
+    <div class="container container--narrow">
+      <p class="eyebrow reveal" id="welcome-eyebrow"></p>
+      <p class="welcome__message reveal reveal-delay-1" id="welcome-message"></p>
+      <p class="welcome__signature reveal reveal-delay-2" id="welcome-signature"></p>
+
+      <div class="music-player reveal reveal-delay-2" id="music-player" hidden>
+        <div class="music-player__bar" id="music-progress-bar">
+          <div class="music-player__fill" id="music-progress-fill"></div>
+          <div class="music-player__handle" id="music-progress-handle"></div>
+        </div>
+        <div class="music-player__controls">
+          <button type="button" class="music-player__play" id="music-play-btn" aria-label="Reproducir">
+            <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider reveal" aria-hidden="true"><span></span></div>
+
+  <!-- ============================ GALERÍA / CARRETE ============================ -->
+  <section class="section gallery" id="galeria" aria-labelledby="galeria-heading">
+    <div class="container container--wide">
+      <p class="eyebrow reveal">Nuestra historia</p>
+      <h2 class="script-heading reveal" id="galeria-heading">Un poco de nosotros</h2>
+      <div class="filmstrip" id="filmstrip"></div>
+    </div>
+  </section>
+
+  <div class="section-divider reveal" aria-hidden="true"><span></span></div>
+
+  <!-- ============================ INFO DEL EVENTO ============================ -->
+  <section class="section section--tinted" id="evento" aria-labelledby="evento-heading">
+    <div class="container">
+      <p class="eyebrow reveal">Información del evento</p>
+      <h2 class="script-heading reveal" id="evento-heading">Fecha y lugar</h2>
+
+      <div class="datetime-row reveal reveal-delay-1">
+        <div class="datetime-row__item">
+          <span class="num" id="evento-dia"></span>
+          <span class="lbl" id="evento-mes"></span>
+        </div>
+        <div class="datetime-row__item">
+          <span class="num" id="evento-hora"></span>
+          <span class="lbl">Hora</span>
+        </div>
+      </div>
+
+      <div class="event-grid">
+        <article class="event-card reveal reveal-delay-1">
+          <p class="event-card__label" id="ceremonia-label"></p>
+          <p class="event-card__venue" id="ceremonia-venue"></p>
+          <p class="event-card__place" id="ceremonia-place"></p>
+          <a class="btn" id="ceremonia-map" target="_blank" rel="noopener noreferrer">Ver ubicación</a>
+        </article>
+
+        <article class="event-card reveal reveal-delay-2">
+          <p class="event-card__label" id="recepcion-label"></p>
+          <p class="event-card__venue" id="recepcion-venue"></p>
+          <p class="event-card__place" id="recepcion-place"></p>
+          <a class="btn" id="recepcion-map" target="_blank" rel="noopener noreferrer">Ver ubicación</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider reveal" aria-hidden="true"><span></span></div>
+
+  <!-- ============================ DRESS CODE ============================ -->
+  <section class="section section--tinted" id="dresscode" aria-labelledby="dresscode-heading">
+    <div class="container">
+      <p class="eyebrow reveal">Cómo vestir</p>
+      <h2 class="script-heading reveal" id="dresscode-heading"></h2>
+
+      <div class="dress-grid">
+        <div class="dress-role reveal reveal-delay-1">
+          <p class="dress-role__title">Hombres</p>
+          <p class="dress-role__text" id="dress-men"></p>
+        </div>
+        <div class="dress-role reveal reveal-delay-2">
+          <p class="dress-role__title">Mujeres</p>
+          <p class="dress-role__text" id="dress-women"></p>
+        </div>
+      </div>
+
+      <div class="reserved-color reveal reveal-delay-2">
+        <p class="reserved-color__label">Colores reservados</p>
+        <div class="reserved-color__swatches" id="avoid-colors"></div>
+        <p class="reserved-color__text" id="reserved-text"></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider reveal" aria-hidden="true"><span></span></div>
+
+  <!-- ============================ INFO ADICIONAL ============================ -->
+  <section class="section" id="info-adicional" aria-labelledby="info-adicional-heading">
+    <div class="container">
+      <p class="eyebrow reveal">Para tener en cuenta</p>
+      <h2 class="script-heading reveal" id="info-adicional-heading">Información adicional</h2>
+      <div class="info-grid" id="info-grid"></div>
+    </div>
+  </section>
+
+  <div class="section-divider reveal" aria-hidden="true"><span></span></div>
+
+  <!-- ============================ CUPOS RESERVADOS ============================ -->
+  <section class="section cupos" id="cupos" aria-labelledby="cupos-label">
+    <div class="container container--narrow">
+      <p class="eyebrow reveal">Hemos reservado</p>
+      <p class="cupos-number reveal" id="cupos-number">1</p>
+      <div class="cupos-divider reveal" aria-hidden="true"></div>
+      <p class="cupos-label reveal" id="cupos-label">CUPO EN TU HONOR</p>
+    </div>
+  </section>
+
+  <div class="section-divider reveal" aria-hidden="true"><span></span></div>
+
+  <!-- ============================ RSVP ============================ -->
+  <section class="section section--tinted" id="rsvp" aria-labelledby="rsvp-heading">
+    <div class="container">
+      <div class="rsvp__intro">
+        <p class="eyebrow reveal" id="rsvp-heading-eyebrow">Confirma tu asistencia</p>
+        <h2 class="script-heading reveal" id="rsvp-heading">RSVP</h2>
+        <p class="rsvp__deadline reveal" id="rsvp-deadline"></p>
+        <p class="rsvp__invitation-note reveal" id="rsvp-invitation-note" hidden></p>
+      </div>
+
+      <form class="form reveal reveal-delay-1" id="rsvp-form" novalidate>
+
+        <div class="field">
+          <label for="f-nombre">Nombre completo</label>
+          <input type="text" id="f-nombre" name="nombre" autocomplete="name" required aria-required="true" />
+          <p class="field-error" id="err-nombre"></p>
+        </div>
+
+        <div class="field">
+          <label for="f-telefono">Número de teléfono</label>
+          <input type="tel" id="f-telefono" name="telefono" autocomplete="tel" required aria-required="true" />
+          <p class="field-error" id="err-telefono"></p>
+        </div>
+
+        <fieldset class="fieldset field">
+          <legend>Confirmación de asistencia</legend>
+          <div class="radio-row" id="asistencia-options"></div>
+          <p class="field-error" id="err-asistencia"></p>
+        </fieldset>
+
+        <div class="field">
+          <label for="f-restriccion">Restricciones alimenticias</label>
+          <select id="f-restriccion" name="restriccion" required aria-required="true">
+            <option value="" disabled selected>Selecciona una opción</option>
+          </select>
+          <p class="field-error" id="err-restriccion"></p>
+        </div>
+
+        <div class="field field--conditional" id="detalle-wrapper">
+          <label for="f-detalle">Cuéntanos cuál</label>
+          <input type="text" id="f-detalle" name="detalleRestriccion" />
+        </div>
+
+        <div class="guest-section" id="guest-section">
+          <p class="guest-section__title">¿Vienen más personas contigo?</p>
+          <p class="guest-section__hint" id="guest-section-hint">
+            Si esta invitación incluye a más miembros de tu núcleo familiar, agrégalos aquí con su propio nombre y preferencia alimenticia.
+          </p>
+          <div id="guests-list"></div>
+          <button type="button" class="btn btn--ghost-light btn--add-guest" id="add-guest-btn">+ Agregar acompañante</button>
+          <p class="guest-section__limit-note" id="guest-limit-note" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="f-comentarios">Comentarios (opcional)</label>
+          <textarea id="f-comentarios" name="comentarios" rows="3"></textarea>
+        </div>
+
+        <div class="form__submit">
+          <button type="submit" class="btn btn--solid" id="rsvp-submit">Enviar confirmación</button>
+          <span class="spinner" role="status" aria-live="polite" aria-label="Enviando"></span>
+        </div>
+
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="rsvp-success" id="rsvp-success" hidden>
+        <svg class="rsvp-success__icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M20 33 L28 41 L45 23" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <p class="rsvp-success__text" id="rsvp-success-text"></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================ FOOTER / CONFIRMACIÓN FINAL ============================ -->
+<footer class="footer">
+  <p class="footer__monogram" id="footer-monogram"></p>
+  <p class="footer__names" id="footer-names"></p>
+  <p class="footer__date" id="footer-date"></p>
+</footer>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
